@@ -1,0 +1,38 @@
+// src/context/ThemeContext.jsx
+import { createContext, useContext, useEffect, useState } from "react";
+
+const ThemeContext = createContext();
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("eastpay-theme");
+    return saved || "light";
+  });
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    
+    // Add animation class
+    document.documentElement.classList.add("theme-transition");
+    
+    setTheme(newTheme);
+
+    // Remove class after animation ends
+    setTimeout(() => {
+      document.documentElement.classList.remove("theme-transition");
+    }, 400);
+  };
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("eastpay-theme", theme);
+  }, [theme]);
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+export const useTheme = () => useContext(ThemeContext);
