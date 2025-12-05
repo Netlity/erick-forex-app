@@ -5,7 +5,7 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    const saved = localStorage.getItem("eastpay-theme");
+    const saved = localStorage.getItem("erick-forex-theme");
     return saved || "light";
   });
 
@@ -23,14 +23,15 @@ export function ThemeProvider({ children }) {
     }, 400);
   };
 
+  // Sync state → DOM when user toggles
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("eastpay-theme", theme);
+    localStorage.setItem("erick-forex-theme", theme);
   }, [theme]);
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      {children}X
     </ThemeContext.Provider>
   );
 }

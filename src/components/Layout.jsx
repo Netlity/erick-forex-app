@@ -3,6 +3,7 @@ import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { Menu, Home, ShoppingCart, Send, DollarSign, Wallet, History, BarChart3, Users, Settings, LogOut, User, Moon, Sun, Bell } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useLogout } from "../utils/logout";  // or wherever you put it
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: Home },
@@ -22,6 +23,7 @@ export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
+  const logout = useLogout();
 
   const user = { name: "Erick Mgongolwa", role: "Cashier" };
 
@@ -123,7 +125,7 @@ export default function Layout() {
                     <li><Link className="dropdown-item" to="/settings">Settings</Link></li>
                     <li><hr className="dropdown-divider" /></li>
                     <li>
-                      <button onClick={() => navigate("/login")} className="dropdown-item text-danger">
+                      <button onClick={logout} className="dropdown-item text-danger">
                         <LogOut size={18} className="me-2" /> Logout
                       </button>
                     </li>

@@ -2,9 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- THIS SCRIPT ELIMINATES THE THEME FLICKER -->
+    <script>
+      (function () {
+        const theme = localStorage.getItem("erick-forex-theme") || "light";
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <!-- Rest of your head tags -->
+
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>internal-portal</title>
+    <title>Staff Portal</title>
   </head>
   <body>
     <div id="root"></div>
