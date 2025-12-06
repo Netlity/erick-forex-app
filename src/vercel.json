@@ -1,1 +1,14 @@
-{ "rewrites": [{ "source": "/(.*)", "destination": "/" }] }
+{
+      "routes": [{ "src": "/", "dest": "/" },
+                { "src": "/login", "dest": "/" },
+                { "src": "/orders", "dest": "/" },
+                { "src": "/rates", "dest": "/" },
+                { "src": "/wallets", "dest": "/" },
+                { "src": "/transactions", "dest": "/" },
+                { "src": "/send-funds", "dest": "/" },
+                { "src": "/reports", "dest": "/" },
+                { "src": "/customers", "dest": "/" },
+                { "src": "/staff", "dest": "/" },
+                { "src": "/profile", "dest": "/" }
+      ]
+}
