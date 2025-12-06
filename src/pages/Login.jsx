@@ -18,7 +18,7 @@ export default function Login() {
       <div className="card shadow" style={{ maxWidth: "420px", width: "100%" }}>
         <div className="card-body p-5">
           <div className="text-center mb-4">
-            <h2 className="text-success fw-bold">Erick Forex</h2>
+            <h2 className="text-success fw-bold">Chotuwahe</h2>
             <p className="text-muted">Staff Login</p>
           </div>
 
@@ -44,7 +44,7 @@ export default function Login() {
 
           <div className="text-center mt-4">
             <small className="text-muted">
-              © {new Date().getFullYear()} Erick Forex. All rights reserved.
+              © {new Date().getFullYear()} Chotuwahe. All rights reserved.
             </small>
           </div>
         </div>

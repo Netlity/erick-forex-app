@@ -283,7 +283,7 @@ const SystemSettings = () => {
           <div className="card border-0 shadow-sm">
             <div className="card-body">
               <h5 className="fw-semibold">Business Info</h5>
-              <p className="text-muted small">Bureau Name: Erick Forex (Bureau De Change)</p>
+              <p className="text-muted small">Bureau Name: Chotuwahe De Change</p>
               <p className="text-muted small">License: *Applicable licencse</p>
             </div>
           </div>

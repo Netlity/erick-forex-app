@@ -50,7 +50,7 @@ export default function Layout() {
           {/* Clean Header - Same height as topbar, NO extra button */}
           <div className="p-4 border-bottom d-flex align-items-center" style={{ height: "73px" }}>
             <h3 className={`mb-0 text-success fw-bold ${!sidebarOpen && "d-none"}`}>
-              Erick Forex
+              Chotuwahe
             </h3>
           </div>
 
@@ -144,9 +144,9 @@ export default function Layout() {
           <footer className="bg-white border-top py-4 mt-auto">
             <div className="text-center">
               <p className="mb-0 text-muted">
-                 © {new Date().getFullYear()} Erick Forex (Bureau De Change). All rights reserved.
+                 © {new Date().getFullYear()} Chotuwahe De Change. All rights reserved.
                 <br />
-                <small className="text-success">Powered by Grandson Technology • Version 1.0</small>
+                <small className="text-success">Powered by Grandson Technologies • Version 1.0</small>
               </p>
             </div>
           </footer>
