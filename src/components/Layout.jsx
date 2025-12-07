@@ -1,9 +1,41 @@
-// src/components/Layout.jsx
+// src/components/Layout.jsx - FULL CODE (Theme Toggle Repositioned for Mobile)
+
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { Menu, Home, ShoppingCart, Send, DollarSign, Wallet, History, BarChart3, Users, Settings, LogOut, User, Moon, Sun, Bell } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useLogout } from "../utils/logout";  // or wherever you put it
+import { useLogout } from "../utils/logout";
+
+// --- Nav Component (REUSABLE FOR DESKTOP AND MOBILE) ---
+const SidebarNav = ({ navItems, location, sidebarOpen, onLinkClick }) => (
+  <nav className="mt-4">
+    {navItems.map((item) => {
+      const Icon = item.icon;
+      const active = location.pathname === item.to;
+      return (
+        <Link
+          key={item.to}
+          to={item.to}
+          onClick={onLinkClick} 
+          className={`d-flex align-items-center px-4 py-3 text-decoration-none transition-all ${
+            active 
+              ? "bg-success text-white" 
+              : "text-primary-hover"
+          }`}
+          style={{ 
+            color: active ? "white" : "inherit",
+            opacity: active ? 1 : 0.85
+          }}>
+          <Icon size={22} />
+          <span className={`ms-4 fw-medium ${!sidebarOpen && "d-none"}`}>
+            {item.label}
+          </span>
+        </Link>
+      );
+    })}
+  </nav>
+);
+// --------------------------------------------------------
 
 const navItems = [
   { to: "/", label: "Dashboard", icon: Home },
@@ -26,11 +58,11 @@ export default function Layout() {
   const logout = useLogout();
 
   const user = { name: "Erick Mgongolwa", role: "Cashier" };
-
+  
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 992) setSidebarOpen(false);
-      else setSidebarOpen(true);
+      if (window.innerWidth >= 992) setSidebarOpen(true);
+      else setSidebarOpen(false); 
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -39,71 +71,113 @@ export default function Layout() {
 
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
 
+  const closeOffcanvas = () => {
+    if (window.innerWidth < 992) {
+        const closeButton = document.querySelector('#mobileSidebar .btn-close');
+        if (closeButton) {
+            closeButton.click();
+        }
+    }
+  };
+
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <div className="d-flex flex-grow-1">
-        {/* Sidebar */}
+    <div className={`d-flex flex-column bg-light`} style={{ minHeight: '100vh' }}> 
+      
+      <div className="d-flex flex-grow-1 w-100"> 
+
+        {/* 1. DESKTOP SIDEBAR */}
         <div
-          id="sidebar"
-          className={`border-end shadow-sm transition-all duration-300 ${sidebarOpen ? "w-72" : "w-20"}`}
-          style={{ minWidth: sidebarOpen ? "18rem" : "5rem" }}>
-          {/* Clean Header - Same height as topbar, NO extra button */}
-          <div className="p-4 border-bottom d-flex align-items-center" style={{ height: "73px" }}>
+          className={`d-none d-lg-flex flex-column border-end shadow-sm transition-all duration-300 bg-white`}
+          style={{ minWidth: sidebarOpen ? "18rem" : "5rem", zIndex: 1020 }}> 
+          
+          <div className={`p-4 border-bottom d-flex align-items-center`} style={{ height: "73px" }}>
             <h3 className={`mb-0 text-success fw-bold ${!sidebarOpen && "d-none"}`}>
               Chotuwahe
             </h3>
           </div>
-
-          <nav className="mt-4">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const active = location.pathname === item.to;
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={`d-flex align-items-center px-4 py-3 text-decoration-none transition-all ${
-                    active 
-                      ? "bg-success text-white" 
-                      : "text-primary-hover"
-                  }`}
-                  style={{ 
-                    color: active ? "white" : "inherit",
-                    opacity: active ? 1 : 0.85
-                  }}>
-                  <Icon size={22} />
-                  <span className={`ms-4 fw-medium ${!sidebarOpen && "d-none"}`}>
-                    {item.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </nav>
+          <SidebarNav navItems={navItems} location={location} sidebarOpen={sidebarOpen} onLinkClick={null} />
         </div>
 
-        {/* Main Content */}
-        <div className="flex-grow-1 d-flex flex-column">
-          {/* Topbar - Only ONE clean hamburger */}
-          <header className="bg-white shadow-sm border-bottom px-4 d-flex align-items-center" style={{ height: "73px" }}>
-            <div className="d-flex justify-content-between align-items-center w-100">
+
+        {/* 2. MOBILE SIDEBAR (Offcanvas) */}
+        <div 
+          className={`offcanvas offcanvas-start d-lg-none`} 
+          tabIndex="-1" 
+          id="mobileSidebar" 
+          aria-labelledby="mobileSidebarLabel">
+            
+          <div className={`offcanvas-header border-bottom bg-white`}>
+              <h5 className="offcanvas-title text-success fw-bold" id="mobileSidebarLabel">Chotuwahe</h5>
+              <button type="button" className={`btn-close`} data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          
+          <div className="offcanvas-body p-0 bg-white d-flex flex-column"> {/* Add flex-column to manage content spacing */}
+            
+            <div className="flex-grow-1"> {/* Navigation takes up available space */}
+                <SidebarNav navItems={navItems} location={location} sidebarOpen={true} onLinkClick={closeOffcanvas} /> 
+            </div>
+
+            {/* NEW MOBILE THEME TOGGLE SECTION */}
+            <div className="mt-auto px-4 py-3"> {/* Use mt-auto to push to the bottom */}
+                
+                <hr className="my-3" /> {/* Horizontal rule above the toggle */}
+                
+                <div className="d-flex align-items-center justify-content-between">
+                    <span className="fw-medium text-muted">Toggle Theme</span>
+                    <button 
+                        onClick={toggleTheme} 
+                        className={`btn btn-outline-secondary theme-toggle-btn`}>
+                        {theme === "light" ? (
+                            <Moon size={22} />
+                        ) : (
+                            <Sun size={22} className="text-warning" />
+                        )}
+                    </button>
+                </div>
+
+            </div>
+            {/* END NEW MOBILE THEME TOGGLE SECTION */}
+
+          </div>
+        </div>
+
+        {/* 3. MAIN CONTENT AREA - Takes full width */}
+        <div className="flex-grow-1 d-flex flex-column w-100"> 
+          
+          {/* Topbar */}
+          <header className={`navbar navbar-expand-lg shadow-sm border-bottom bg-white`}>
+            <div className="container-fluid px-4">
+              
+              {/* Menu Triggers (mobile/desktop) */}
+              <button
+                className="btn btn-outline-secondary d-lg-none" 
+                data-bs-toggle="offcanvas"
+                data-bs-target="#mobileSidebar"
+                aria-controls="mobileSidebar"
+                style={{ width: "48px", height: "48px" }}> 
+                <Menu size={24} strokeWidth={2.5} />
+              </button>
+              
               <button
                 onClick={toggleSidebar}
-                className="btn btn-outline-secondary toggle-menu"
-                style={{ width: "56px", height: "56px" }}>
-                <Menu size={28} strokeWidth={2.5} />
+                className="btn btn-outline-secondary me-3 d-none d-lg-block" 
+                style={{ width: "48px", height: "48px" }}> 
+                <Menu size={24} strokeWidth={2.5} />
               </button>
 
-              <div className="d-flex align-items-center gap-3">
-                <button className="btn btn-outline-secondary position-relative">
+              {/* The rest of the content - Pushed to the right */}
+              <div className="ms-auto d-flex align-items-center gap-3"> 
+                <button className={`btn btn-outline-secondary position-relative`}>
                   <Bell size={22} />
                   <span className="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">
                     3
                   </span>
                 </button>
 
+                {/* THEME TOGGLE BUTTON - HIDDEN ON MOBILE/TABLET (d-none d-lg-block) */}
                 <button 
                   onClick={toggleTheme} 
-                  className="btn btn-outline-secondary theme-toggle-btn">
+                  className={`btn btn-outline-secondary theme-toggle-btn d-none d-lg-block`}> 
                   {theme === "light" ? (
                     <Moon size={22} />
                   ) : (
@@ -113,14 +187,14 @@ export default function Layout() {
 
                 <div className="dropdown">
                   <button
-                    className="btn btn-outline-success d-flex align-items-center gap-2 dropdown-toggle"
+                    className={`btn btn-outline-success d-flex align-items-center gap-2 dropdown-toggle`}
                     type="button"
                     data-bs-toggle="dropdown"
                   >
                     <User size={22} />
                     <span>{user.name}</span>
                   </button>
-                  <ul className="dropdown-menu dropdown-menu-end shadow">
+                  <ul className={`dropdown-menu dropdown-menu-end shadow`}>
                     <li><Link className="dropdown-item" to="/profile">My Profile</Link></li>
                     <li><Link className="dropdown-item" to="/settings">Settings</Link></li>
                     <li><hr className="dropdown-divider" /></li>
@@ -136,12 +210,12 @@ export default function Layout() {
           </header>
 
           {/* Page Content */}
-          <main className="flex-grow-1 p-4 bg-light">
+          <main className={`flex-grow-1 p-4 bg-light`}>
             <Outlet />
           </main>
 
           {/* Footer */}
-          <footer className="bg-white border-top py-4 mt-auto">
+          <footer className={`border-top py-4 mt-auto bg-white`}>
             <div className="text-center">
               <p className="mb-0 text-muted">
                  © {new Date().getFullYear()} Chotuwahe De Change. All rights reserved.

@@ -120,7 +120,7 @@ export default function Dashboard() {
       {/* Welcome Section */}
       <div className="mb-4">
         <h2 className="mb-2 fw-bold">Welcome back, Erick</h2>
-        <p className="text-muted">Here's what's happening today at EastPay</p>
+        <p className="text-muted">Here's what's happening today at Chotuwahe De Change</p>
       </div>
 
       {/* Stats Cards - Perfect Spacing */}
