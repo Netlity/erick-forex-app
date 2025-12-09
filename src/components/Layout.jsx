@@ -90,7 +90,7 @@ export default function Layout() {
           className={`d-none d-lg-flex flex-column border-end shadow-sm transition-all duration-300 bg-white`}
           style={{ minWidth: sidebarOpen ? "18rem" : "5rem", zIndex: 1020 }}> 
           
-          <div className={`p-4 border-bottom d-flex align-items-center`} style={{ height: "73px" }}>
+          <div className={`p-4 d-flex align-items-center`} style={{ height: "73px" }}>
             <h3 className={`mb-0 text-success fw-bold ${!sidebarOpen && "d-none"}`}>
               Chotuwahe
             </h3>
@@ -106,7 +106,7 @@ export default function Layout() {
           id="mobileSidebar" 
           aria-labelledby="mobileSidebarLabel">
             
-          <div className={`offcanvas-header border-bottom bg-white`}>
+          <div className={`offcanvas-header bg-white`}>
               <h5 className="offcanvas-title text-success fw-bold" id="mobileSidebarLabel">Chotuwahe</h5>
               <button type="button" className={`btn-close`} data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>

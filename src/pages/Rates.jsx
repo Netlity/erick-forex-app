@@ -72,7 +72,9 @@ const RateManagement = () => {
 
       <div className="mb-4">
         <h2 className="mb-1 fw-bold">Exchange Rate Management</h2>
-        <p className="text-muted">Get new live currency exchange rates and update them accordingly to be used to send funds</p>
+        {/* Condensed subtitle for mobile */}
+        <p className="text-muted d-none d-sm-block">Get new live currency exchange rates and update them accordingly to be used to send funds</p>
+        <p className="text-muted d-block d-sm-none small mb-0">Update live currency exchange rates.</p>
       </div>
 
       {/* Rate Editor Card */}
@@ -81,45 +83,48 @@ const RateManagement = () => {
           <h5 className="mb-0 fw-bold">USD Live Rates</h5>
         </div>
         <div className="card-body p-4">
-          <div className="d-flex align-items-end gap-3 flex-wrap">
-            {/* Buy */}
-            <div>
+          
+          {/* Key Change 1: Stack inputs vertically on mobile (flex-column) and wrap to horizontal (flex-sm-row) on screens >= sm */}
+          <div className="d-flex align-items-end gap-3 flex-column flex-sm-row">
+            
+            {/* Buy Rate Input */}
+            <div className="w-100 w-sm-auto"> {/* Use full width on mobile, auto width on small screens and up */}
               <label className="form-label mb-1 text-muted small">Buy Rate</label>
               <input
                 type="number"
                 step="0.01"
                 className="form-control form-control-lg text-center fw-bold"
-                style={{ width: '160px' }}
+                // Key Change 2: Remove inline style width restriction for responsiveness
                 value={usdRate.buy}
                 onChange={(e) => setUsdRate(prev => ({ ...prev, buy: parseFloat(e.target.value) || 0 }))}
               />
             </div>
 
-            {/* Sell */}
-            <div>
+            {/* Sell Rate Input */}
+            <div className="w-100 w-sm-auto"> {/* Use full width on mobile, auto width on small screens and up */}
               <label className="form-label mb-1 text-muted small">Sell Rate</label>
               <input
                 type="number"
                 step="0.01"
                 className="form-control form-control-lg text-center fw-bold text-danger"
-                style={{ width: '160px' }}
+                // Key Change 2: Remove inline style width restriction for responsiveness
                 value={usdRate.sell}
                 onChange={(e) => setUsdRate(prev => ({ ...prev, sell: parseFloat(e.target.value) || 0 }))}
               />
             </div>
 
-            {/* Save Button – SAME SIZE as inputs */}
-            <div className="mb-1">
+            {/* Save Button – SAME SIZE as inputs, full width on mobile */}
+            <div className="w-100 w-sm-auto mb-1">
               <button
                 onClick={handleSave}
-                className={`btn fw-bold h-100 px-4 ${
+                className={`btn fw-bold w-100 h-100 ${ // Make button full width on mobile
                   hasChanges()
                     ? 'btn-success shadow-sm'
                     : 'btn-outline-secondary'
                 }`}
                 style={{ 
-                  width: '160px', 
-                  height: '58px',   // exact height of form-control-lg
+                  // Key Change 3: Removed fixed width, only keeping fixed height to match inputs
+                  height: '58px',
                   fontSize: '1.25rem' 
                 }}
               >
@@ -136,9 +141,11 @@ const RateManagement = () => {
           <h5 className="mb-0 fw-semibold">Rate Change History</h5>
         </div>
         <div className="card-body p-0">
+          
+          {/* Key Change 4: table-responsive for horizontal scroll on mobile */}
           <div className="table-responsive">
             <table className="table table-hover mb-0">
-              <thead className="bg-light small text-muted">
+              <thead className="bg-light small text-muted text-nowrap">
                 <tr>
                   <th className="ps-4">Date & Time</th>
                   <th className="text-center">Old Buy</th>
@@ -151,12 +158,12 @@ const RateManagement = () => {
               <tbody>
                 {history.map((log, i) => (
                   <tr key={i}>
-                    <td className="ps-4 small text-muted">{formatDate(log.updatedAt)}</td>
-                    <td className="text-center text-muted">{log.oldBuy.toFixed(2)}</td>
-                    <td className="text-center text-success fw-bold">{log.newBuy.toFixed(2)}</td>
-                    <td className="text-center text-muted">{log.oldSell.toFixed(2)}</td>
-                    <td className="text-center text-danger fw-bold">{log.newSell.toFixed(2)}</td>
-                    <td className="text-muted small">{log.updatedBy}</td>
+                    <td className="ps-4 small text-muted text-nowrap">{formatDate(log.updatedAt)}</td>
+                    <td className="text-center text-muted text-nowrap">{log.oldBuy.toFixed(2)}</td>
+                    <td className="text-center text-success fw-bold text-nowrap">{log.newBuy.toFixed(2)}</td>
+                    <td className="text-center text-muted text-nowrap">{log.oldSell.toFixed(2)}</td>
+                    <td className="text-center text-danger fw-bold text-nowrap">{log.newSell.toFixed(2)}</td>
+                    <td className="text-muted small text-nowrap">{log.updatedBy}</td>
                   </tr>
                 ))}
               </tbody>
