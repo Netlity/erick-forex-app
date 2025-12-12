@@ -25,7 +25,7 @@ export default function Login() {
           <form>
             <div className="mb-3">
               <label className="form-label">Email or Phone</label>
-              <input type="text" className="form-control form-control-lg" placeholder="staff@erickforex.com" />
+              <input type="text" className="form-control form-control-lg" placeholder="staff@chotuwahedc.com" />
             </div>
             <div className="mb-3">
               <label className="form-label">Password</label>

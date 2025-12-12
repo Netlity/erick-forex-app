@@ -179,7 +179,7 @@ export default function SendFunds() {
                     <div className="form-group">
                       <label className="form-label fw-semibold">Send From Wallet</label>
                       <select className="form-select form-select-lg">
-                        {wallets.map(w => <option key={w.id} key={w.id}>{w.name} - Bal: {w.balance.toLocaleString()}</option>)}
+                        {wallets.map(w => <option key={w.id}>{w.name} - Bal: {w.balance.toLocaleString()}</option>)}
                       </select>
                     </div>
                   </div>

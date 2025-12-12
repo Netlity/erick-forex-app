@@ -31,7 +31,7 @@ export function ThemeProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}X
+      {children}
     </ThemeContext.Provider>
   );
 }
